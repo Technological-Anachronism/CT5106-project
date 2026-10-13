@@ -17,7 +17,7 @@ public class InMemoryUserRepository implements UserRepository {
     // Create Memory Storage Space
     private final Map<Long, User> users = new ConcurrentHashMap<>();
     
-    public InMemoryUserRepository()
+    public InMemoryUserRepository() {
         User defaultUser = new User(//Create the specified initial user
 
             1234L,           

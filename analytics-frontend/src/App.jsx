@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function basicAuth(user, pass) {
   const bytes = new TextEncoder().encode(`${user}:${pass}`);
   return 'Basic ' + btoa(Array.from(bytes, b => String.fromCharCode(b)).join(''));
 }
 
-async function getOverview(credentials) {
+async function getOverview(credentials, signal) {
   const response = await fetch('/api/analytics/overview', {
     headers: { Authorization: basicAuth(credentials.username, credentials.password) },
     cache: 'no-store',
-    credentials: 'omit'
+    credentials: 'omit',
+    signal
   });
   if (response.status === 401) throw new Error('Incorrect administrator credentials.');
   if (response.status === 503) throw new Error('Configure the Analytics admin environment variables in Spring Boot.');
@@ -24,28 +25,41 @@ export default function App() {
   const [report, setReport] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const activeRequest = useRef(null);
+  useEffect(() => () => activeRequest.current?.abort(), []);
 
   // Use the same request when logging in or clicking Refresh.
   async function refresh(credentials) {
+    activeRequest.current?.abort();
+    const request = new AbortController();
+    activeRequest.current = request;
     setLoading(true);
     setError('');
     try {
-      const next = await getOverview(credentials);
+      const next = await getOverview(credentials, request.signal);
+      if (activeRequest.current !== request || request.signal.aborted) return;
       setReport(next);
       setSession(credentials); // Memory only: nothing stored in cookies or localStorage.
       setUsername('');
       setPassword('');
     } catch (e) {
+      if (activeRequest.current !== request || request.signal.aborted) return;
       setError(e.message);
       setReport(null);
       if (e.message.includes('credentials')) setSession(null);
     } finally {
-      setLoading(false);
+      if (activeRequest.current === request) {
+        activeRequest.current = null;
+        setLoading(false);
+      }
     }
   }
 
   // Clear the dashboard and the credentials kept in memory.
   function signOut() {
+    activeRequest.current?.abort();
+    activeRequest.current = null;
+    setLoading(false);
     setSession(null);
     setReport(null);
     setUsername('');
