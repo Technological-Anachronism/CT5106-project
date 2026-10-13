@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Repair tickets</title>
+</head>
+<body>
+    <h1>Repair tickets</h1>
+    <p>Temporary page. Open a ticket, resolve an open one, then close it.</p>
+
+    <h2>Open a ticket</h2>
+    <input id="description" type="text" size="40" placeholder="What needs fixing?">
+    <button id="open">Open ticket</button>
+    <p id="message"></p>
+
+    <h2>Tickets</h2>
+    <ul id="tickets"></ul>
+
+<script>
+    const list = document.getElementById("tickets");
+    const message = document.getElementById("message");
+
+    async function loadTickets() {
+        const response = await fetch("/api/portal/tickets");
+        const tickets = await response.json();
+        list.innerHTML = "";
+        tickets.forEach(ticket => {
+            const item = document.createElement("li");
+            item.textContent = ticket.id + ": " + ticket.description + " (" + ticket.status + ") ";
+            const resolveButton = document.createElement("button");
+            resolveButton.textContent = "Resolve";
+            resolveButton.addEventListener("click", () => resolveTicket(ticket.id));
+            const closeButton = document.createElement("button");
+            closeButton.textContent = "Close";
+            closeButton.addEventListener("click", () => closeTicket(ticket.id));
+            item.append(resolveButton, closeButton);
+            list.append(item);
+        });
+    }
+
+    async function resolveTicket(id) {
+        const response = await fetch("/api/portal/tickets/" + id + "/resolve", { method: "POST" });
+        const body = await response.json();
+        message.textContent = response.ok ? id + " resolved." : body.error;
+        loadTickets();
+    }
+
+    async function closeTicket(id) {
+        const response = await fetch("/api/portal/tickets/" + id + "/close", { method: "POST" });
+        const body = await response.json();
+        message.textContent = response.ok ? id + " closed." : body.error;
+        loadTickets();
+    }
+
+    document.getElementById("open").addEventListener("click", async () => {
+        const description = document.getElementById("description").value;
+        const response = await fetch("/api/portal/tickets?description=" + encodeURIComponent(description), {
+            method: "POST"
+        });
+        const body = await response.json();
+        message.textContent = response.ok ? "Opened " + body.id : body.error;
+        document.getElementById("description").value = "";
+        loadTickets();
+    });
+
+    loadTickets();
+</script>
+</body>
+</html>
