@@ -30,6 +30,11 @@ public class RepairTicket {
         return new RepairTicket(id, description.trim(), Status.OPEN);
     }
 
+    // Rebuilds a ticket that was already saved, keeping whatever status it had.
+    public static RepairTicket restore(String id, String description, Status status) {
+        return new RepairTicket(id, description, status);
+    }
+
     // Given a ticket is open, when an admin resolves it, then it becomes RESOLVED.
     // A resolved or closed ticket cannot be resolved again.
     public void resolve() {

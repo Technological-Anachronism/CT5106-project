@@ -3,6 +3,7 @@ package bms.application;
 import bms.domain.RepairTicket;
 import bms.domain.TicketRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,21 +26,27 @@ public class TicketActions {
         return views;
     }
 
+    // Picking the next id and saving happen together, or not at all.
+    @Transactional
     public TicketView open(String description) {
         RepairTicket ticket = RepairTicket.open(tickets.nextId(), description);
         tickets.save(ticket);
         return TicketView.from(ticket);
     }
 
+    @Transactional
     public TicketView resolve(String id) {
         RepairTicket ticket = tickets.findById(id);
         ticket.resolve();
+        tickets.save(ticket);
         return TicketView.from(ticket);
     }
 
+    @Transactional
     public TicketView close(String id) {
         RepairTicket ticket = tickets.findById(id);
         ticket.close();
+        tickets.save(ticket);
         return TicketView.from(ticket);
     }
 
