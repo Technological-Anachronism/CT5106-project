@@ -1,0 +1,395 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+/* BMS USER MANAGEMENT - BURGUNDY THEME */
+
+:root {
+    font-family: 'DM Sans', Arial, sans-serif;
+    color: #30242a;
+    background: #faf7f8;
+    font-synthesis: none;
+
+    --primary: #8b0046;
+    --primary-dark: #75003b;
+    --primary-hover: #a00050;
+    --primary-soft: #f9edf3;
+    --border: #eadfe5;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: #faf7f8;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+/* MAIN LAYOUT */
+
+.container {
+    width: min(1120px, calc(100% - 48px));
+    margin: 48px auto 60px;
+}
+
+/* HEADER */
+
+header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        180deg,
+        #8b0046 0%,
+        #a00050 100%
+    );
+    color: #ffffff;
+    padding: 48px 52px;
+    border-radius: 14px;
+    margin-bottom: 30px;
+}
+
+header::before {
+    content: "BMS / 01";
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #f9c8df;
+    margin-bottom: 22px;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    right: -80px;
+    top: -150px;
+    width: 370px;
+    height: 370px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+h1,
+h2 {
+    font-family: 'Manrope', Arial, sans-serif;
+}
+
+h1 {
+    position: relative;
+    z-index: 1;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -1.8px;
+    line-height: 1.2;
+    margin: 0 0 15px;
+}
+
+header p {
+    position: relative;
+    z-index: 1;
+    color: #f4d7e5;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    margin: 0;
+}
+
+/* PANELS */
+
+.panel {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 36px 36px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 18px rgba(80, 0, 40, 0.025);
+    overflow-x: auto;
+}
+
+.panel h2 {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: var(--primary);
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    margin: 0 0 28px;
+}
+
+.panel h2::before {
+    content: "";
+    width: 5px;
+    height: 23px;
+    background: #bf5286;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+/* USER FORM */
+
+form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px 18px;
+    align-items: end;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+    color: #6b4659;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+label:has(select) {
+    grid-column: 1 / -1;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #e6d7df;
+    border-radius: 7px;
+    background: #fdfafb;
+    color: #442437;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(139, 0, 70, 0.12);
+}
+
+input:disabled {
+    background: #f3edf0;
+    color: #a18d97;
+    cursor: not-allowed;
+}
+
+select {
+    cursor: pointer;
+}
+
+/* ACTION BUTTONS */
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    grid-column: 1 / -1;
+    margin-top: 2px;
+}
+
+button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(90, 0, 45, 0.14);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+button.secondary {
+    background: #f8eaf1;
+    border-color: #efd5e2;
+    color: var(--primary);
+}
+
+button.secondary:hover:not(:disabled) {
+    background: #f1dce7;
+}
+
+button.danger {
+    background: #fff0f1;
+    border-color: #f2d4d8;
+    color: #b23950;
+}
+
+button.danger:hover:not(:disabled) {
+    background: #f9e0e4;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* STATUS MESSAGE */
+
+.message {
+    padding: 16px 20px;
+    margin: 0 0 24px;
+    background: #fbedf3;
+    border: 1px solid #efd6e0;
+    border-left: 4px solid var(--primary);
+    color: var(--primary);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* USERS TABLE */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+thead {
+    background: #fcf3f7;
+}
+
+th {
+    padding: 16px 17px;
+    color: #996b82;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    border-bottom: 1px solid #eedfe7;
+}
+
+th:first-child {
+    border-radius: 6px 0 0 0;
+}
+
+th:last-child {
+    border-radius: 0 6px 0 0;
+}
+
+td {
+    padding: 19px 17px;
+    border-bottom: 1px solid #f1e8ed;
+    color: #442e39;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+tbody tr {
+    transition: background 0.2s;
+}
+
+tbody tr:hover {
+    background: #fdf7fa;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+td button {
+    padding: 8px 14px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+/* EMPTY TABLE */
+
+.panel > p {
+    padding: 12px 0;
+    color: #a18d97;
+    font-size: 13px;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 12px 4px 30px;
+    color: #a18d97;
+    font-size: 12px;
+}
+
+footer a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 750px) {
+    .container {
+        width: calc(100% - 24px);
+        margin: 16px auto 36px;
+    }
+
+    header {
+        padding: 36px 26px;
+    }
+
+    h1 {
+        letter-spacing: -1px;
+    }
+
+    .panel {
+        padding: 24px 20px;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    label:has(select),
+    .actions {
+        grid-column: 1;
+    }
+
+    table {
+        min-width: 680px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    button,
+    input,
+    select,
+    tbody tr {
+        transition: none;
+    }
+}
