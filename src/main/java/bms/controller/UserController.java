@@ -88,5 +88,5 @@ public class UserController {
             "error",
             exception.getMessage()
         );
-    }
+    } 
 }
