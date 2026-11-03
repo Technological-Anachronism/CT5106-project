@@ -3,7 +3,6 @@ package bms.application;
 import bms.domain.User;
 
 import java.util.List;
-
 import java.util.Optional;
 
 public interface UserRepository {
@@ -17,5 +16,8 @@ public interface UserRepository {
     boolean existsById(Long id);
 
     boolean existsByEmail(String email);
+
+    // Delete user by ID
+    void deleteById(Long id);
 
 }
