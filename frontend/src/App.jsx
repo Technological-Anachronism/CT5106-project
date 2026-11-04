@@ -335,6 +335,10 @@ export default function App() {
                                 SUPER_ADMIN
                             </option>
 
+                            <option value="STAFF">
+                                STAFF
+                            </option>
+
                         </select>
 
                     </label>
