@@ -11,6 +11,12 @@ public class RepairTicket {
         CLOSED
     }
 
+    public enum priority {
+        LOW,
+        MEDIUM,
+        HIGH
+    }
+
     private final String id;
     private final String description;
     private Status status;
