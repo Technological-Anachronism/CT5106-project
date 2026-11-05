@@ -82,7 +82,7 @@ public class RepairTicket {
             throw new TicketProblem("A ticket must be assigned before it can be resolved");
         }
         if (!assigneeId.equals(userId)) {
-            throw new TicketProblem("Only the assignee can be resolve this ticket");
+            throw new TicketProblem("Only the assignee can resolve this ticket");
         }
         resolve();
     }
