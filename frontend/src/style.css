@@ -385,6 +385,8 @@ footer a:hover {
     }
 }
 
+
+
 @media (prefers-reduced-motion: reduce) {
     button,
     input,
@@ -392,4 +394,11 @@ footer a:hover {
     tbody tr {
         transition: none;
     }
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    width: min(1120px, calc(100% - 48px));
+    margin: 24px auto -24px;
 }
