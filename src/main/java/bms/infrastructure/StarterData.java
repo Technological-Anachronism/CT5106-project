@@ -34,5 +34,13 @@ public class StarterData implements CommandLineRunner {
         if (!users.existsById(1234L)) {
             users.save(new User(1234L, "admin", "admin@admin.ie", Role.SUPER_ADMIN));
         }
+
+        // Two staff members so tickets can be assigned in a demo.
+        if (!users.existsById(2001L)) {
+            users.save(new User(2001L, "Sam Staff", "sam@bms.ie", Role.STAFF));
+        }
+        if (!users.existsById(2002L)) {
+            users.save(new User(2002L, "Alex Staff", "alex@bms.ie", Role.STAFF));
+        }
     }
 }
