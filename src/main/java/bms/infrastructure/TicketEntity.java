@@ -1,5 +1,6 @@
 package bms.infrastructure;
 
+import bms.domain.Priority;
 import bms.domain.RepairTicket;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,6 +26,11 @@ public class TicketEntity {
     @Enumerated(EnumType.STRING)
     private RepairTicket.Status status;
 
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+    private Long assigneeId;
+
     protected TicketEntity() {
     }
 
@@ -33,10 +39,12 @@ public class TicketEntity {
         entity.id = ticket.getId();
         entity.description = ticket.getDescription();
         entity.status = ticket.getStatus();
+        entity.priority = ticket.getPriority();
+        entity.assigneeId = ticket.getAssigneeId();
         return entity;
     }
 
     RepairTicket toTicket() {
-        return RepairTicket.restore(id, description, status);
+        return RepairTicket.restore(id, description, status, priority, assigneeId);
     }
 }
