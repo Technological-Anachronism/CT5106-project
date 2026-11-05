@@ -1,5 +1,6 @@
 package bms.infrastructure;
 
+import bms.domain.Priority;
 import bms.domain.RepairTicket;
 import bms.domain.Role;
 import bms.domain.User;
@@ -50,7 +51,7 @@ class JpaRepositoryTest {
 
     @Test
     void blankDescriptionIsStoppedBeforeSaving() {
-        RepairTicket bad = RepairTicket.restore("ticket-50", " ", RepairTicket.Status.OPEN);
+        RepairTicket bad = RepairTicket.restore("ticket-50", " ", RepairTicket.Status.OPEN, Priority.MEDIUM, null);
         assertThrows(ConstraintViolationException.class, () -> {
             tickets.save(bad);
             entityManager.flush();

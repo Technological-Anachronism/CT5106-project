@@ -30,7 +30,6 @@ export default function App() {
     }
   }
 
-  const count = status => tickets.filter(t => t.status === status).length;
   const shown = tab === 'ALL' ? tickets : tickets.filter(t => t.status === tab);
 
   return <div className="app-shell">
@@ -42,17 +41,6 @@ export default function App() {
       </div>
       <div className="label-demo">BMS repair portal</div>
     </header>
-
-    <div className="summary-grid">
-      {[
-        ['Total tickets', tickets.length],
-        ['Open', count('OPEN')],
-        ['Resolved', count('RESOLVED')],
-        ['Closed', count('CLOSED')]
-      ].map(([name, value]) => <section className="panel stat" key={name}>
-        <span>{name}</span><strong>{value}</strong>
-      </section>)}
-    </div>
 
     {error && <p className="error" role="alert">{error}</p>}
 
