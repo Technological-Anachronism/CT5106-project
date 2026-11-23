@@ -5,6 +5,7 @@ function basicAuth(user, pass) {
   return 'Basic ' + btoa(Array.from(bytes, b => String.fromCharCode(b)).join(''));
 }
 
+/** Fetches the current report and rejects stale or failed requests. */
 async function getOverview(credentials, signal) {
   const response = await fetch('/api/analytics/overview', {
     headers: { Authorization: basicAuth(credentials.username, credentials.password) },
@@ -18,7 +19,8 @@ async function getOverview(credentials, signal) {
   return response.json();
 }
 
-export default function App() {
+/** Displays live repair-service statistics; credentials stay in memory. */
+export default function AnalyticsPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [session, setSession] = useState(null);
@@ -28,7 +30,7 @@ export default function App() {
   const activeRequest = useRef(null);
   useEffect(() => () => activeRequest.current?.abort(), []);
 
-  // Use the same request when logging in or clicking Refresh.
+  /** Loads fresh statistics; aborted and superseded requests cannot restore a session. */
   async function refresh(credentials) {
     activeRequest.current?.abort();
     const request = new AbortController();
@@ -55,7 +57,7 @@ export default function App() {
     }
   }
 
-  // Clear the dashboard and the credentials kept in memory.
+  /** Clears the dashboard, credentials and any in-flight request on sign out. */
   function signOut() {
     activeRequest.current?.abort();
     activeRequest.current = null;
@@ -67,14 +69,14 @@ export default function App() {
     setError('');
   }
 
-  return <div className="app-shell">
+  return <div className="analytics-page app-shell">
     <header className="masthead">
       <div>
         <p className="eyebrow">CT5106 / BUSINESS MANAGEMENT SYSTEM</p>
         <h1>Service Analytics</h1>
         <p className="subtitle">Service status, outstanding tasks and repair-ticket feature usage</p>
       </div>
-      <span className="label-demo">ASSIGNMENT 2 PROTOTYPE</span>
+      <span className="label-demo">SERVICE ANALYTICS</span>
     </header>
 
     {!session && <section className="panel login">
@@ -107,8 +109,8 @@ export default function App() {
       </div>
       <div className="two-columns">
         <section className="panel">
-          <h2>Service status</h2>
-          <p className="supporting">Reads real tickets via TicketRepository.</p>
+          <h2>Service workload</h2>
+          <p className="supporting">Workload is derived from persisted tickets; this is not an uptime check.</p>
           <div className="table-scroll"><table>
             <thead><tr><th>Service</th><th>Status</th><th>Outstanding tasks</th></tr></thead>
             <tbody>{report.services.map(service => <tr key={service.name}>

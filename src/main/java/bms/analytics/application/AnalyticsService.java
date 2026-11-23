@@ -19,6 +19,9 @@ public class AnalyticsService {
         this.analytics = analytics;
     }
 
+    /** Reads persisted ticket states, calculates workload and saves the latest snapshot.
+     * @return a newly generated immutable report
+     */
     public AnalyticsReport overview() {
         // Read each mutable ticket's state once so all counts use the same captured values.
         var statuses = tickets.findAll().stream().map(RepairTicket::getStatus).toList();

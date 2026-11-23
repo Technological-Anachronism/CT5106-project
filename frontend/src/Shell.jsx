@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import App from "./App.jsx";
 import ManagementPage from "./ManagementPage.jsx";
+import AnalyticsPage from "./analytics/AnalyticsPage.jsx";
+import "./analytics/analytics.css";
 
 // Tabs across the top, one per dashboard
 export default function Shell() {
@@ -23,9 +25,11 @@ export default function Shell() {
                 >
                     Service Management
                 </button>
+                <button className={page === "analytics" ? "" : "secondary"}
+                    onClick={() => setPage("analytics")}>Service Analytics</button>
             </nav>
 
-            {page === "users" ? <App /> : <ManagementPage />}
+            {page === "users" ? <App /> : page === "management" ? <ManagementPage /> : <AnalyticsPage />}
         </>
     );
 }
