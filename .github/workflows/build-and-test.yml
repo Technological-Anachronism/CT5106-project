@@ -39,16 +39,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: |
-            frontend/package-lock.json
-            portal-frontend/package-lock.json
-            analytics-frontend/package-lock.json
-      - name: Build user and service dashboard
+          cache-dependency-path: frontend/package-lock.json
+      - name: Build React frontend
         working-directory: frontend
-        run: npm ci && npm run build
-      - name: Build ticket portal
-        working-directory: portal-frontend
-        run: npm ci && npm run build
-      - name: Build analytics dashboard
-        working-directory: analytics-frontend
         run: npm ci && npm run build
