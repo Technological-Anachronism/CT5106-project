@@ -267,14 +267,10 @@ export default function App() {
                                 })
                             }
                         />
-
                     </label>
-
                     {/* User name */}
                     <label>
-
                         Name
-
                         <input
                             type="text"
                             required
@@ -286,14 +282,10 @@ export default function App() {
                                 })
                             }
                         />
-
                     </label>
-
                     {/* User email */}
                     <label>
-
                         Email
-
                         <input
                             type="email"
                             required
@@ -305,14 +297,10 @@ export default function App() {
                                 })
                             }
                         />
-
                     </label>
-
                     {/* User role */}
                     <label>
-
                         Role
-
                         <select
                             value={form.role}
                             onChange={(e) =>
@@ -322,43 +310,31 @@ export default function App() {
                                 })
                             }
                         >
-
                             <option value="USER">
                                 USER
                             </option>
-
                             <option value="ADMIN">
                                 ADMIN
                             </option>
-
                             <option value="SUPER_ADMIN">
                                 SUPER_ADMIN
                             </option>
-
                             <option value="STAFF">
                                 STAFF
                             </option>
-
                         </select>
-
                     </label>
-
                     {/* Form buttons */}
                     <div className="actions">
-
                         <button
                             type="submit"
                             disabled={busy}
                         >
-
                             {editingId === null
                                 ? "Add User"
                                 : "Save Changes"}
-
                         </button>
-
                         {editingId !== null && (
-
                             <button
                                 type="button"
                                 className="secondary"
@@ -366,38 +342,26 @@ export default function App() {
                             >
                                 Cancel
                             </button>
-
                         )}
-
                     </div>
-
                 </form>
-
             </section>
-
             {/* Success or error message */}
             {message && (
-
                 <p
                     role="status"
                     className="message"
                 >
                     {message}
                 </p>
-
             )}
-
             {/* User list */}
             <section className="panel">
-
                 <h2>
                     All Users
                 </h2>
-
                 <table>
-
                     <thead>
-
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -405,33 +369,23 @@ export default function App() {
                             <th>Role</th>
                             <th>Actions</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         {users.map((user) => (
-
                             <tr key={user.id}>
-
                                 <td>
                                     {user.id}
                                 </td>
-
                                 <td>
                                     {user.name}
                                 </td>
-
                                 <td>
                                     {user.email}
                                 </td>
-
                                 <td>
                                     {user.role}
                                 </td>
-
                                 <td>
-
                                     {/* Edit button */}
                                     <button
                                         type="button"
@@ -442,9 +396,7 @@ export default function App() {
                                     >
                                         Edit
                                     </button>
-
                                     {" "}
-
                                     {/* Delete button */}
                                     <button
                                         type="button"
@@ -456,41 +408,19 @@ export default function App() {
                                     >
                                         Delete
                                     </button>
-
                                 </td>
-
                             </tr>
-
                         ))}
-
                     </tbody>
-
                 </table>
-
                 {users.length === 0 && (
-
                     <p>
                         No users found.
                         Add your first user above.
                     </p>
-
                 )}
-
             </section>
-
             {/* Link to the existing portal */}
-            <footer>
-
-                <a href="http://localhost:8080/">
-                    Existing Repair Ticket page
-                </a>
-
-                {" "}
-
-                (teammate's prototype)
-
-            </footer>
-
-        </main>
+</main>
     );
 }
