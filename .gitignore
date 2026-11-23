@@ -6,3 +6,6 @@ target/
 .settings/
 .vscode/
 *.log
+**/node_modules/
+frontend/dist/
+*.class
