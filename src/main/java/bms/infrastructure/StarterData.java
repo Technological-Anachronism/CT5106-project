@@ -27,7 +27,8 @@ public class StarterData implements CommandLineRunner {
             tickets.save(flickeringScreen);
 
             RepairTicket internetIssue = RepairTicket.open(tickets.nextId(), "Internet connectivity issues in CSB-G005");
-            internetIssue.resolve();
+            internetIssue.assignTo(2001L);
+            internetIssue.resolveBy(2001L);
             tickets.save(internetIssue);
         }
 

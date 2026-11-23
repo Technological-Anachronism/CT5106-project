@@ -37,7 +37,8 @@ class JpaRepositoryTest {
         tickets.save(ticket);
 
         RepairTicket loaded = tickets.findById(ticket.getId());
-        loaded.resolve();
+        loaded.assignTo(2001L);
+        loaded.resolveBy(2001L);
         tickets.save(loaded);
 
         assertEquals(RepairTicket.Status.RESOLVED, tickets.findById(ticket.getId()).getStatus());

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-// The three things a user can do on the portal.
+// What a user can do on the portal. Resolving is done by staff through the management API.
 @Service
 public class TicketActions {
 
@@ -30,14 +30,6 @@ public class TicketActions {
     @Transactional
     public TicketView open(String description) {
         RepairTicket ticket = RepairTicket.open(tickets.nextId(), description);
-        tickets.save(ticket);
-        return TicketView.from(ticket);
-    }
-
-    @Transactional
-    public TicketView resolve(String id) {
-        RepairTicket ticket = tickets.findById(id);
-        ticket.resolve();
         tickets.save(ticket);
         return TicketView.from(ticket);
     }

@@ -45,9 +45,9 @@ public class RepairTicket {
         return new RepairTicket(id, description, status, savedPriority, assigneeId);
     }
 
-    // Given a ticket is open, when an admin resolves it, then it becomes RESOLVED.
+    // Private so the only way to resolve a ticket is resolveBy, which checks the assignee.
     // A resolved or closed ticket cannot be resolved again.
-    public void resolve() {
+    private void resolve() {
         if (status != Status.OPEN) {
             throw new TicketProblem("Only an open ticket can be resolved");
         }
