@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getTickets, openTicket, resolveTicket, closeTicket } from './api.js';
+import { getTickets, openTicket, closeTicket } from './api.js';
 import TicketForm from './components/TicketForm.jsx';
 import TicketTable from './components/TicketTable.jsx';
 
@@ -58,7 +58,6 @@ export default function App() {
           </button>)}
         </nav>
         <TicketTable tickets={shown} busy={busy}
-          onResolve={id => run(() => resolveTicket(id))}
           onClose={id => run(() => closeTicket(id))} />
       </section>
     </div>

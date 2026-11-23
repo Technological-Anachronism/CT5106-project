@@ -57,7 +57,8 @@ class AnalyticsServiceTest {
         var ticket = RepairTicket.open(ticketRepo.nextId(), "Broken printer");
         ticketRepo.save(ticket);
         assertEquals(2, service.overview().tickets().open());
-        ticket.resolve();
+        ticket.assignTo(2001L);
+        ticket.resolveBy(2001L);
         ticket.close();
         var changed = service.overview();
         assertEquals(1, changed.tickets().closed());
@@ -70,7 +71,8 @@ class AnalyticsServiceTest {
     TestTicketRepository() {
         var first = RepairTicket.open("ticket-1", "Broken monitor");
         var second = RepairTicket.open("ticket-2", "Network issue");
-        second.resolve();
+        second.assignTo(2001L);
+        second.resolveBy(2001L);
 
         tickets.add(first);
         tickets.add(second);

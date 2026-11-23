@@ -32,7 +32,8 @@ class RepairTicketTest {
     @Test
     void aResolvedTicketCanBeClosed() {
         RepairTicket ticket = RepairTicket.open("ticket-1", "Broken chair");
-        ticket.resolve();
+        ticket.assignTo(2001L);
+        ticket.resolveBy(2001L);
 
         ticket.close();
 

@@ -10,5 +10,4 @@ async function send(url, method = 'GET') {
 
 export const getTickets = () => send(BASE);
 export const openTicket = description => send(`${BASE}?description=${encodeURIComponent(description)}`, 'POST');
-export const resolveTicket = id => send(`${BASE}/${id}/resolve`, 'POST');
 export const closeTicket = id => send(`${BASE}/${id}/close`, 'POST');

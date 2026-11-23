@@ -15,9 +15,8 @@ public class RepairTicket {
     private final String description;
     private Status status;
     private Priority priority;
+    // null until someone is assigned
     private Long assigneeId;
-    // empty unitl someone is assigned
-    //rn its just a placeholder because we still havent fully decided on a domain to centre arounf, could be renamed to technicianID
 
 
     private RepairTicket(String id, String description, Status status, Priority priority, Long assigneeId) {
@@ -38,16 +37,25 @@ public class RepairTicket {
     }
 
 
-    // Rebuilds a ticket that was already saved, keeping whatever status it had.
-    //makes it so tcikets made before Priorities  existed are automtically assigned MEDIUM
+    /**
+     * Rebuilds a ticket that was already saved, keeping whatever status it had.
+     * Tickets saved before priorities existed come back as MEDIUM.
+     *
+     * @param id the ticket id
+     * @param description what needs fixing
+     * @param status the saved status
+     * @param priority the saved priority, or null for MEDIUM
+     * @param assigneeId the assigned user's id, or null if unassigned
+     * @return the rebuilt ticket
+     */
     public static RepairTicket restore(String id, String description, Status status, Priority priority, Long assigneeId) {
         Priority savedPriority = priority == null ? Priority.MEDIUM : priority;
         return new RepairTicket(id, description, status, savedPriority, assigneeId);
     }
 
-    // Given a ticket is open, when an admin resolves it, then it becomes RESOLVED.
+    // Private so the only way to resolve a ticket is resolveBy, which checks the assignee.
     // A resolved or closed ticket cannot be resolved again.
-    public void resolve() {
+    private void resolve() {
         if (status != Status.OPEN) {
             throw new TicketProblem("Only an open ticket can be resolved");
         }
@@ -63,8 +71,13 @@ public class RepairTicket {
         status = Status.CLOSED;
     }
 
-    // Given an open ticket, when the admin assigns it, then it records the assignee.
-    // A resolved or closed ticket cant be assigned
+    /**
+     * Given an open ticket, when the admin assigns it, then it records the assignee.
+     * A resolved or closed ticket can't be assigned.
+     *
+     * @param userId the id of the staff member taking the ticket
+     * @throws TicketProblem if the ticket isn't open or no user is given
+     */
     public void assignTo(Long userId) {
         if (status != Status.OPEN) {
             throw new TicketProblem("Only an open ticket can be assigned");
@@ -75,9 +88,14 @@ public class RepairTicket {
         assigneeId = userId;
     }
 
-    //Given a ticket is assigned, when its assignee resolves it, then it becomes RESOLVED
-    // given it is unassigned, or someone else tries to resolve it, then its refused and stays OPEN
-    public void resolveBy( Long userId) {
+    /**
+     * Given a ticket is assigned, when its assignee resolves it, then it becomes RESOLVED.
+     * Given it is unassigned, or someone else tries to resolve it, then it's refused and stays OPEN.
+     *
+     * @param userId the id of the user trying to resolve it
+     * @throws TicketProblem if the ticket is unassigned, the user isn't the assignee, or it isn't open
+     */
+    public void resolveBy(Long userId) {
         if (assigneeId == null){
             throw new TicketProblem("A ticket must be assigned before it can be resolved");
         }
@@ -87,7 +105,13 @@ public class RepairTicket {
         resolve();
     }
 
-    //Given a ticket is not closed, when the admin changes its priority, then the new priority is kept
+    /**
+     * Given a ticket is open, when the admin changes its priority, then the new priority is kept.
+     * A resolved or closed ticket's priority can't change.
+     *
+     * @param newPriority the new priority
+     * @throws TicketProblem if no priority is given or the ticket isn't open
+     */
     public void changePriority(Priority newPriority) {
         if (newPriority == null) {
             throw new TicketProblem("A ticket needs a new priority");
@@ -111,10 +135,12 @@ public class RepairTicket {
         return status;
     }
 
+    /** @return how urgent the ticket is */
     public Priority getPriority() {
         return priority;
     }
 
+    /** @return the assigned user's id, or null if nobody is assigned */
     public Long getAssigneeId() {
         return assigneeId;
     }
