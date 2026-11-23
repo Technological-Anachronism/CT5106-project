@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-// The three things a user can do on the portal.
+/**
+ * The things a user can do on the portal: list tickets, open one, and close one once it is resolved.
+ * Resolve is not here on purpose. That stays in Service Management so only the assignee can do it.
+ */
 @Service
 public class TicketActions {
 
@@ -30,14 +33,6 @@ public class TicketActions {
     @Transactional
     public TicketView open(String description) {
         RepairTicket ticket = RepairTicket.open(tickets.nextId(), description);
-        tickets.save(ticket);
-        return TicketView.from(ticket);
-    }
-
-    @Transactional
-    public TicketView resolve(String id) {
-        RepairTicket ticket = tickets.findById(id);
-        ticket.resolve();
         tickets.save(ticket);
         return TicketView.from(ticket);
     }

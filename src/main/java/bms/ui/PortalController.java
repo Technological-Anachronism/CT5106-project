@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-// Urls the temporary page calls.
+/**
+ * Urls the portal tab calls.
+ * List, open and close only. Resolve is on the management API instead.
+ */
 @RestController
 @RequestMapping("/api/portal/tickets")
 public class PortalController {
@@ -28,11 +31,6 @@ public class PortalController {
     @PostMapping
     public TicketView open(@RequestParam String description) {
         return actions.open(description);
-    }
-
-    @PostMapping("/{id}/resolve")
-    public TicketView resolve(@PathVariable String id) {
-        return actions.resolve(id);
     }
 
     @PostMapping("/{id}/close")
