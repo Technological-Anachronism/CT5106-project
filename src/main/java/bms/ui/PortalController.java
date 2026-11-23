@@ -30,11 +30,6 @@ public class PortalController {
         return actions.open(description);
     }
 
-    @PostMapping("/{id}/resolve")
-    public TicketView resolve(@PathVariable String id) {
-        return actions.resolve(id);
-    }
-
     @PostMapping("/{id}/close")
     public TicketView close(@PathVariable String id) {
         return actions.close(id);

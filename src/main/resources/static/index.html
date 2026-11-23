@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Repair tickets</h1>
-    <p>Temporary page. Open a ticket, resolve an open one, then close it.</p>
+    <p>Temporary page. Open a ticket, then close it once staff have resolved it.</p>
 
     <h2>Open a ticket</h2>
     <input id="description" type="text" size="40" placeholder="What needs fixing?">
@@ -27,22 +27,12 @@
         tickets.forEach(ticket => {
             const item = document.createElement("li");
             item.textContent = ticket.id + ": " + ticket.description + " (" + ticket.status + ") ";
-            const resolveButton = document.createElement("button");
-            resolveButton.textContent = "Resolve";
-            resolveButton.addEventListener("click", () => resolveTicket(ticket.id));
             const closeButton = document.createElement("button");
             closeButton.textContent = "Close";
             closeButton.addEventListener("click", () => closeTicket(ticket.id));
-            item.append(resolveButton, closeButton);
+            item.append(closeButton);
             list.append(item);
         });
-    }
-
-    async function resolveTicket(id) {
-        const response = await fetch("/api/portal/tickets/" + id + "/resolve", { method: "POST" });
-        const body = await response.json();
-        message.textContent = response.ok ? id + " resolved." : body.error;
-        loadTickets();
     }
 
     async function closeTicket(id) {

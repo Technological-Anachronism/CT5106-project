@@ -59,6 +59,7 @@ export default function ManagementPage() {
         }
     }
 
+    // Show a name instead of an id once a ticket can't be reassigned
     function staffName(id) {
         const person = staff.find(user => user.id === id);
         return person ? person.name : "Unassigned";
