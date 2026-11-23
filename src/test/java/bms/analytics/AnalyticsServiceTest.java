@@ -20,6 +20,7 @@ class AnalyticsServiceTest {
         var report = AnalyticsReport.fromTicketStatuses(Instant.EPOCH, List.of());
         assertEquals(new AnalyticsReport.TicketCounts(0, 0, 0, 0), report.tickets());
         assertEquals(0, report.services().get(0).outstandingTasks());
+        assertEquals("NO_OUTSTANDING_TASKS", report.services().get(0).status());
         assertTrue(report.services().get(0).features().stream()
                 .allMatch(feature -> feature.usageCount() == 0 && feature.outstandingTasks() == 0));
     }
@@ -32,6 +33,7 @@ class AnalyticsServiceTest {
         assertEquals(new AnalyticsReport.TicketCounts(4, 1, 1, 2), report.tickets());
         var repair = report.services().get(0);
         assertEquals(2, repair.outstandingTasks());
+        assertEquals("TASKS_OUTSTANDING", repair.status());
         assertEquals(3, repair.features().get(1).usageCount());
         assertEquals(1, repair.features().get(1).outstandingTasks());
         assertEquals(2, repair.features().get(2).usageCount());
