@@ -13,7 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 
-/** Prototype-only Basic Auth. Replace with the team's real admin session/roles later. */
+/** Protects Analytics routes with configured Basic Auth and disables response caching.
+ * Missing configuration fails closed with HTTP 503; invalid credentials return 401.
+ * This adapter is independent of team user roles and requires HTTPS outside local use.
+ */
 @Component
 public class AnalyticsAdminFilter extends OncePerRequestFilter {
     private final String username;

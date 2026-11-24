@@ -18,6 +18,9 @@ public class AnalyticsController {
         this.service = service;
     }
 
+    /** Returns a fresh administrator report with cache prevention.
+     * @return HTTP 200 with live statistics, after the authentication filter succeeds
+     */
     @GetMapping("/overview")
     public ResponseEntity<AnalyticsReport> overview() {
         return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(service.overview());
