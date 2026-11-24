@@ -10,8 +10,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-// One row in the tickets table. Kept separate so RepairTicket has no database code in it.
-// The checks here are a backup; the real rules are in RepairTicket.
+/**
+ * One row in the tickets table. Kept separate so RepairTicket has no database code in it.
+ * The checks here are a backup; the real rules are in RepairTicket.
+ */
 @Entity
 @Table(name = "tickets")
 public class TicketEntity {
@@ -31,9 +33,16 @@ public class TicketEntity {
 
     private Long assigneeId;
 
+    /** JPA needs an empty constructor. */
     protected TicketEntity() {
     }
 
+    /**
+     * Turns a domain ticket into a row that can be saved.
+     *
+     * @param ticket domain ticket
+     * @return entity ready for JPA
+     */
     static TicketEntity from(RepairTicket ticket) {
         TicketEntity entity = new TicketEntity();
         entity.id = ticket.getId();
@@ -44,6 +53,11 @@ public class TicketEntity {
         return entity;
     }
 
+    /**
+     * Turns a saved row back into a domain ticket.
+     *
+     * @return domain ticket with the same fields
+     */
     RepairTicket toTicket() {
         return RepairTicket.restore(id, description, status, priority, assigneeId);
     }

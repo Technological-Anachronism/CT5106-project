@@ -51,7 +51,7 @@ psql -U postgres -c "CREATE DATABASE bms_test"
 .\mvnw.cmd spring-boot:run
 ```
 
-For macOS/Linux systems you can run the application with `./mvnw spring-boot:run`. The application will be available at http://localhost:8080. If port 8080 is being used:
+For macOS/Linux systems you can run the application with `./mvnw spring-boot:run`. Default port is 8081 (see `application.properties`). If you need another port:
 
 ```
 .\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--server.port=8081"
@@ -67,7 +67,7 @@ npm install
 npm run dev
 ```
 
-Open the URL printed by Vite (http://127.0.0.1:5173). Requests to `/api` are proxied to the backend at port 8080. These steps can also be used for `portal-frontend`. Service Analytics is available in the shared `frontend` navigation.
+Open the URL printed by Vite (http://127.0.0.1:5173). Requests to `/api` are proxied to the backend at port 8081. Portal, Analytics, User, Role and Service Management are all tabs in this one React app.
 
 ## Configuration
 
@@ -76,8 +76,8 @@ Open the URL printed by Vite (http://127.0.0.1:5173). Requests to `/api` are pro
 | `DB_URL` | `jdbc:postgresql://localhost:5432/bms` | App database |
 | `DB_USER` / `DB_PASSWORD` | `postgres` / `postgres` | Database login (app and tests) |
 | `TEST_DB_URL` | `jdbc:postgresql://localhost:5432/bms_test` | Test database |
-| `BMS_ANALYTICS_ADMIN_USERNAME` / `BMS_ANALYTICS_ADMIN_PASSWORD` | none | Login for the analytics dashboard. Analytics returns 503 until these are set |
-| `PORTAL_API_TARGET` | `http://127.0.0.1:8080` | Where the portal dev server forwards `/api` |
+| `BMS_ANALYTICS_ADMIN_USERNAME` / `BMS_ANALYTICS_ADMIN_PASSWORD` | `admin` / `admin` | Login for the Analytics tab. Override these in production |
+| `SERVER_PORT` | `8081` | Backend HTTP port (8080 is often taken on Windows) |
 
 ## Tests and CI
 
@@ -88,7 +88,7 @@ Open the URL printed by Vite (http://127.0.0.1:5173). Requests to `/api` are pro
 - **Unit tests:** These tests are focused on the domain logic and use cases. They do not depend on a database but instead use in-memory fakes to represent the repository objects (e.g. `RepairTicketTest`, `TicketAssignmentTest`, `TicketManagementTest`, `UserServiceTest`, `AnalyticsServiceTest`).
 - **Integration tests:** These tests use a live `bms_test` database (`JpaRepositoryTest`), and/or send real HTTP requests to the controller using MockMvc (`UserControllerIntegrationTest`, `RoleManagementControllerTest`).
 
-The GitHub Actions workflow (`.github/workflows/build-and-test.yml`) executes each time a user pushes code to the main branch of the repository, and also each time a user submits a pull request. This workflow will create a new PostgreSQL 17 container, run the `mvnw clean verify` command (which builds the project, runs all of its tests, and packages it into an executable), and finally build the React applications.
+The GitHub Actions workflow (`.github/workflows/build-and-test.yml`) runs on pushes and pull requests to main. It starts PostgreSQL 17, runs `mvnw clean verify`, and builds the single React app in `frontend/`.
 
 ## Building and deploying
 
@@ -105,8 +105,7 @@ When you are ready to begin running your jar file, make sure to set your `DB_URL
 src/main/java/bms/         Spring Boot backend (layers above)
 src/main/resources/        application.properties, static test page
 src/test/java/bms/         Unit and integration tests
-frontend/                  User, Role, Service Management and Analytics dashboards (tabs in Shell.jsx)
-portal-frontend/           Service Portal
+frontend/                  Single React app (User, Role, Portal, Management, Analytics tabs)
 .github/workflows/         CI workflow
 ```
 
