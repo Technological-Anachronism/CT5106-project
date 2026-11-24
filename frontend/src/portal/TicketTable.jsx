@@ -1,5 +1,8 @@
-// Shows tickets and the action that makes sense for each status.
-// OPEN tickets wait for staff. RESOLVED ones can be closed. Resolve is not on this page.
+/**
+ * Shows tickets and the action that makes sense for each status.
+ * OPEN tickets wait for staff. RESOLVED ones can be closed. Resolve is not on this page.
+ * @param {{ tickets: Array<{id: string, description: string, status: string}>, onClose: (id: string) => void, busy: boolean }} props
+ */
 export default function TicketTable({ tickets, onClose, busy }) {
   if (tickets.length === 0) return <p className="supporting">No tickets here.</p>;
 

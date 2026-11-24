@@ -7,11 +7,22 @@ import java.util.List;
  */
 public interface TicketRepository {
 
+    /** @return every saved ticket */
     List<RepairTicket> findAll();
 
+    /**
+     * @param id ticket id
+     * @return the ticket with that id
+     */
     RepairTicket findById(String id);
 
+    /**
+     * Inserts or updates a ticket.
+     *
+     * @param ticket ticket to store
+     */
     void save(RepairTicket ticket);
 
+    /** @return the next free ticket id */
     String nextId();
 }

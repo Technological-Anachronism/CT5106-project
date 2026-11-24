@@ -3,22 +3,29 @@ import { getTickets, openTicket, closeTicket } from './portal/api.js';
 import TicketForm from './portal/TicketForm.jsx';
 import TicketTable from './portal/TicketTable.jsx';
 
+/** Status filters above the ticket list. */
 const FILTERS = ['ALL', 'OPEN', 'RESOLVED', 'CLOSED'];
 
-// Service Portal tab. Open a ticket, check on it, close it once staff have fixed it.
-// No resolve button here so people cannot skip the assignee check.
+/**
+ * Service Portal tab. Open a ticket, check on it, close it once staff have fixed it.
+ * No resolve button here so people cannot skip the assignee check.
+ */
 export default function PortalPage() {
   const [tickets, setTickets] = useState([]);
   const [filter, setFilter] = useState('ALL');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  // Load the tickets once after the first render.
+  /** Load the tickets once after the first render. */
   useEffect(() => {
     run(getTickets, false);
   }, []);
 
-  // Runs an API call, then reloads the list so the view matches the database.
+  /**
+   * Runs an API call, then reloads the list so the view matches the database.
+   * @param {() => Promise<*>} action
+   * @param {boolean} [reload=true]
+   */
   async function run(action, reload = true) {
     setBusy(true);
     setError('');

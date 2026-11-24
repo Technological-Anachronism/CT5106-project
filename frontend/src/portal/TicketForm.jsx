@@ -1,9 +1,13 @@
 import { useState } from 'react';
 
-// Form for opening a ticket. The description stays in state until submit works.
+/**
+ * Form for opening a ticket. The description stays in state until submit works.
+ * @param {{ onOpen: (description: string) => Promise<boolean>, busy: boolean }} props
+ */
 export default function TicketForm({ onOpen, busy }) {
   const [description, setDescription] = useState('');
 
+  /** Submits the form and clears the box when the ticket is created. */
   async function submit(e) {
     e.preventDefault();
     const ok = await onOpen(description);
