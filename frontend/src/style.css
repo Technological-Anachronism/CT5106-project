@@ -426,26 +426,45 @@ footer a:hover {
     margin-bottom: 28px;
 }
 
-.portal-page .eyebrow,
-.analytics-page .eyebrow {
-    font-family: 'Manrope', sans-serif;
-    font-weight: 800;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    color: var(--primary);
+/* Pages supply their own eyebrow; avoid stacking with User Management ::before */
+.portal-page header::before,
+.analytics-page header::before {
+    content: none;
+    display: none;
     margin: 0;
 }
 
-.portal-page h1,
-.analytics-page h1 {
-    font-size: clamp(29px, 4vw, 42px);
-    letter-spacing: -1px;
-    margin: 9px 0;
-    color: #30242a;
+/* Match User Management header: light text on burgundy */
+.portal-page header .eyebrow,
+.analytics-page header .eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #f9c8df;
+    margin: 0 0 8px;
 }
 
-.portal-page .subtitle,
-.analytics-page .subtitle,
+.portal-page header h1,
+.analytics-page header h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -1.8px;
+    margin: 0 0 15px;
+    color: #ffffff;
+}
+
+.portal-page header .subtitle,
+.analytics-page header .subtitle,
+.portal-page header p,
+.analytics-page header p {
+    color: #f4d7e5;
+    max-width: 660px;
+    line-height: 1.5;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    margin: 0;
+}
+
 .portal-page .supporting,
 .analytics-page .supporting {
     color: #64748b;
@@ -454,13 +473,15 @@ footer a:hover {
     margin: 0;
 }
 
-.portal-page .label-demo,
-.analytics-page .label-demo {
+.portal-page header .label-demo,
+.analytics-page header .label-demo {
+    position: relative;
+    z-index: 1;
     font-size: 11px;
     padding: 7px 12px;
     border-radius: 50px;
     color: var(--primary);
-    background: var(--primary-soft);
+    background: #ffffff;
     font-weight: 800;
     letter-spacing: .5px;
     white-space: nowrap;
